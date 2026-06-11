@@ -1,0 +1,244 @@
+package com.example.petsaude.view
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.petsaude.ui.theme.*
+
+class HomeActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            PetSaudeTheme {
+                HomePage(
+                    onConsultasClick = { startActivity(Intent(this, ConsultasActivity::class.java)) },
+                    onVacinasClick   = { startActivity(Intent(this, VacinasActivity::class.java)) },
+                    onAddPetClick    = { startActivity(Intent(this, RegisterPetActivity::class.java)) },
+                    onProfileClick   = { startActivity(Intent(this, ProfileActivity::class.java)) },
+                    onLogoutClick    = {
+                        val i = Intent(this, MainActivity::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(i)
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomePage(
+    onConsultasClick: () -> Unit = {},
+    onVacinasClick:   () -> Unit = {},
+    onRotinasClick:   () -> Unit = {},
+    onAddPetClick:    () -> Unit = {},
+    onProfileClick:   () -> Unit = {},
+    onLogoutClick:    () -> Unit = {}
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(GrayBg)
+            .statusBarsPadding()
+    ) {
+        // Top bar
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(White)
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "PetSaúde",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = Teal500
+            )
+            Row {
+                IconButton(onClick = onProfileClick) {
+                    Icon(Icons.Default.AccountCircle, contentDescription = "Perfil", tint = Navy900)
+                }
+                IconButton(onClick = onLogoutClick) {
+                    Icon(Icons.Default.ExitToApp, contentDescription = "Sair", tint = Navy900)
+                }
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Meus Pets",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Navy900
+                )
+                TextButton(onClick = {}) {
+                    Text("Ver todos", color = Teal500, fontSize = 13.sp)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+
+                Card(
+                    modifier = Modifier.size(width = 140.dp, height = 160.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = White),
+                    elevation = CardDefaults.cardElevation(1.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize().padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Box(
+                            modifier = Modifier.size(60.dp).background(Teal100, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("🐕", fontSize = 30.sp)
+                        }
+                        Spacer(Modifier.height(8.dp))
+                        Text("Thor", fontWeight = FontWeight.Bold, color = Navy900)
+                        Text("Labrador", fontSize = 11.sp, color = GrayText)
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.size(width = 140.dp, height = 160.dp).clickable(onClick = onAddPetClick),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = GrayBorder.copy(alpha = 0.3f)),
+                    elevation = CardDefaults.cardElevation(0.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize().padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(Icons.Default.Add, contentDescription = null, tint = GrayText, modifier = Modifier.size(32.dp))
+                        Spacer(Modifier.height(8.dp))
+                        Text("Adicionar", color = GrayText, fontSize = 13.sp)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = "Categorias",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Navy900
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            MenuCard(
+                icon = Icons.Default.CalendarMonth,
+                title = "Consultas",
+                description = "Agende e gerencie consultas veterinárias",
+                iconBg = Teal100,
+                iconColor = Teal500,
+                onClick = onConsultasClick
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            MenuCard(
+                icon = Icons.Default.Vaccines,
+                title = "Vacinas",
+                description = "Controle o histórico de vacinação",
+                iconBg = Color(0xFFDCFCE7),
+                iconColor = GreenApplied,
+                onClick = onVacinasClick
+            )
+
+        }
+    }
+}
+
+@Composable
+fun StatItem(number: String, label: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(number, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = White)
+        Text(label, fontSize = 10.sp, color = White.copy(alpha = 0.8f))
+    }
+}
+
+@Composable
+fun MenuCard(
+    icon: ImageVector,
+    title: String,
+    description: String,
+    iconBg: Color,
+    iconColor: Color,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(iconBg),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(26.dp))
+            }
+            Spacer(modifier = Modifier.width(14.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = Navy900)
+                Text(description, fontSize = 12.sp, color = GrayText)
+            }
+            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = GrayText)
+        }
+    }
+}

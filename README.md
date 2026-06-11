@@ -44,4 +44,3 @@ Este projeto foi desenvolvido para fins acadêmicos no IFPE — Instituto Federa
 <div align="center">
   Feito com ❤️ para os pets 🐾
 </div>
-
