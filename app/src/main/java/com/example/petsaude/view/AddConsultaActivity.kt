@@ -43,6 +43,7 @@ fun AddConsultaPage(onBackClick: () -> Unit = {}) {
     var data by rememberSaveable { mutableStateOf("") }
     var horario by rememberSaveable { mutableStateOf("") }
     var motivo by rememberSaveable { mutableStateOf("") }
+    var endereco by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -67,7 +68,7 @@ fun AddConsultaPage(onBackClick: () -> Unit = {}) {
                 .padding(horizontal = 24.dp)
         ) {
             Spacer(Modifier.height(16.dp))
-            
+
             SectionLabel("DETALHES DO AGENDAMENTO")
             Spacer(Modifier.height(12.dp))
 
@@ -103,6 +104,18 @@ fun AddConsultaPage(onBackClick: () -> Unit = {}) {
                     colors = petFieldColors()
                 )
             }
+
+            Spacer(Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = endereco,
+                onValueChange = { endereco = it },
+                label = { Text("Endereço") },
+                leadingIcon = { Icon(Icons.Default.AddLocation, null, tint = Teal500) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                colors = petFieldColors()
+            )
 
             Spacer(Modifier.height(12.dp))
 

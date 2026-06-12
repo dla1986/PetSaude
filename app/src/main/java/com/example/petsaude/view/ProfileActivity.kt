@@ -43,6 +43,7 @@ fun ProfilePage(onBackClick: () -> Unit = {}) {
     var nome by rememberSaveable { mutableStateOf("João Silva") }
     var email by rememberSaveable { mutableStateOf("joao@email.com") }
     var telefone by rememberSaveable { mutableStateOf("(81) 99999-0000") }
+    var senha by rememberSaveable { mutableStateOf("***") }
 
     Column(
         modifier = Modifier
@@ -141,8 +142,36 @@ fun ProfilePage(onBackClick: () -> Unit = {}) {
                 shape = RoundedCornerShape(12.dp),
                 colors = petFieldColors()
             )
+            Spacer(modifier = Modifier.height(12.dp))
+
+
+            OutlinedTextField(
+                value = senha,
+                onValueChange = { senha = it },
+                label = { Text("Senha") },
+                leadingIcon = { Icon(Icons.Default.NoEncryptionGmailerrorred, null, tint = Teal500) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = petFieldColors()
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+
+            OutlinedTextField(
+                value = senha,
+                onValueChange = { senha = it },
+                label = { Text("Confirme Senha") },
+                leadingIcon = { Icon(Icons.Default.NoEncryptionGmailerrorred, null, tint = Teal500) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = petFieldColors()
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
+
 
             Button(
                 onClick = { /* Em um app real, salvaria os dados aqui */ onBackClick() },
